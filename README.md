@@ -1,5 +1,7 @@
 # MundiVeo
 
+![MundiVeo logo](assets/mundiveo-logo.jpg)
+
 A European, community-governed video platform — built as an alternative to YouTube, under EU law by design, and documented in public from day one.
 
 📺 This project is being built on camera. See the video series for the full story behind every decision.
@@ -17,17 +19,31 @@ MundiVeo aims to combine:
 - Transparent, explainable recommendations instead of a black-box algorithm
 - Fairer monetization terms for creators
 
-Full concept document: [`docs/PROJECT_CONCEPT.md`](docs/PROJECT_CONCEPT.md)
+Project narrative & roadmap: [`docs/PROJECT_CONCEPT.md`](docs/PROJECT_CONCEPT.md)
+Functional design (source of truth): [`docs/FUNCTIONAL_DESIGN.md`](docs/FUNCTIONAL_DESIGN.md)
+Technical design (source of truth): [`docs/TECHNICAL_DESIGN.md`](docs/TECHNICAL_DESIGN.md)
+Governance model (draft): [`docs/GOVERNANCE.md`](docs/GOVERNANCE.md)
+Branding (logo + color palette): [`docs/BRANDING.md`](docs/BRANDING.md)
+Public expenses log: [`EXPENSES.md`](EXPENSES.md)
 
-Build spec for AI-assisted development: [`VIBE_CODE_BRIEF.md`](VIBE_CODE_BRIEF.md)
+Build spec for AI-assisted development: [`VIBE_CODE_BRIEF.md`](VIBE_CODE_BRIEF.md) — a generated summary of the FD/TD above. If it ever conflicts with the FD/TD, the FD/TD win.
 
 ## Repository structure
 
 ```
-docs/           → Functional & technical design, roadmap, governance
-frontend/       → React + TypeScript client
-backend/        → Node.js + Express API
-scripts/        → DB setup, transcoding helpers
+docs/
+  PROJECT_CONCEPT.md    → Why, naming, deliberate scope decisions, roadmap
+  FUNCTIONAL_DESIGN.md  → User roles, features, user flows (source of truth)
+  TECHNICAL_DESIGN.md   → Stack, architecture, schema, API, recommendations (source of truth)
+  GOVERNANCE.md         → Draft governance model
+  BRANDING.md           → Logo + official color palette (source of truth)
+assets/
+  mundiveo-logo.jpg          → Official logo
+  mundiveo-color-palette.jpg → Full palette reference image
+EXPENSES.md             → Public cost log
+frontend/               → React + TypeScript client
+backend/                → Node.js + Express API
+scripts/                → DB setup, transcoding helpers
 ```
 
 ## What's deliberately NOT in this version

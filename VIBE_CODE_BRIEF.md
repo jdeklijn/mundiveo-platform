@@ -2,6 +2,8 @@
 
 **Purpose of this file:** this is the working spec for AI-assisted code generation. Read this before generating any code. It reflects deliberate, already-made scope decisions — don't re-introduce items marked "excluded from MVP" without a human decision first.
 
+**This file is a generated summary, not the source of truth.** Authoritative specs live in `docs/FUNCTIONAL_DESIGN.md` and `docs/TECHNICAL_DESIGN.md`. Any scope or schema change must be made there first, then mirrored here. If this file and the docs ever disagree, the docs win — flag the mismatch rather than silently picking one.
+
 ---
 
 ## 0. One-paragraph context
@@ -18,6 +20,10 @@ If a prompt or ticket asks for any of these, flag it back to the human rather th
 - ❌ Decentralized NAS / WebTorrent / IPFS storage. Central EU object storage only for now.
 - ❌ "LLM generates recommendations" — do not wire an LLM call directly into the recommendation endpoint. See Section 5 for the correct approach.
 - ❌ Ad-network integration, payment processing, subscriptions — monetization is Phase 2. Build the `monetization` table/schema but leave endpoints as stubs.
+
+## 1b. Branding assets
+
+Logo lives at `assets/mundiveo-logo.jpg`. Full color palette and Tailwind config values are in `docs/BRANDING.md` (source of truth — exact hex codes, not a guess). Use those colors as-is; don't invent additional brand colors. Don't regenerate or reinterpret the logo — treat it as a fixed asset to reference.
 
 ## 2. Tech stack (use exactly this unless a human changes it)
 
@@ -53,13 +59,15 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT NOW()
 );
 
+-- storage_key / thumbnail_key are internal object-storage keys/paths, NOT
+-- public URLs. Backend constructs the playback/CDN URL at request time.
 CREATE TABLE videos (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    url VARCHAR(255) NOT NULL,
-    thumbnail_url VARCHAR(255),
+    storage_key VARCHAR(255) NOT NULL,
+    thumbnail_key VARCHAR(255),
     duration INTEGER,
     views INTEGER DEFAULT 0,
     created_at TIMESTAMP DEFAULT NOW()
@@ -90,7 +98,9 @@ CREATE TABLE likes (
     PRIMARY KEY (user_id, video_id)
 );
 
--- Stub for Phase 2 — create the table now, leave endpoints unimplemented
+-- Stub for Phase 2 — create the table now, leave endpoints unimplemented.
+-- (See TECHNICAL_DESIGN.md monetization note — this is intentional
+-- sequencing, not a scope conflict with PROJECT_CONCEPT.md.)
 CREATE TABLE monetization (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id),

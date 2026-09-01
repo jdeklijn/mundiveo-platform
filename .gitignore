@@ -1,36 +1,19 @@
-# Dependencies
+# Shared base
 node_modules/
-.pnp
-.pnp.js
-
-# Env files - never commit real secrets
 .env
-.env.local
-.env.*.local
+.env.*
+*.log
+.DS_Store
+.idea/
+.vscode/
 
-# Build output
+# Public-repo specific: build output & media that never belongs in git
 dist/
 build/
 .next/
-
-# Logs
-*.log
-npm-debug.log*
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-# Video/media working files (large binaries don't belong in git)
 *.mp4
 *.mov
 *.webm
 uploads/
 tmp/
-
-# Docker
 docker-compose.override.yml
