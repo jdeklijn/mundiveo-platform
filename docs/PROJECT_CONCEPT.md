@@ -62,23 +62,37 @@ This entire topic is parked until/unless the community decides it's in scope.
 
 ---
 
-## 3. Revised Roadmap (AI-accelerated development)
+## 3. Revised Roadmap — Deadline-Anchored (Alpha: 1 February 2027)
 
-Technical development can move fast with AI-assisted coding tools. The real bottlenecks are legal groundwork, fundraising, and community-building — the roadmap reflects that.
+### 3.1 Why this specific date
 
-| Phase | Timeframe | Goals | Deliverables |
+On 10 August 2026, YouTube announced that from **1 February 2027**, new applicants to the YouTube Partner Program will need **8,000 qualified watch hours** (up from 4,000) or **20 million qualified Shorts views per 90 days** (up from 10 million) to start monetizing. The 1,000-subscriber requirement is unchanged.
+
+**Important nuance, for accuracy:** this change affects *new* applicants, not creators already in the program — existing monetized channels keep their status. The practical effect is a much wider pool of **not-yet-monetized and newly-starting European creators** who will find the bar to entry on YouTube has doubled overnight. That is the audience MundiVeo's alpha is timed to reach: not creators being kicked off YouTube, but creators for whom YouTube's door is about to get a lot harder to open. (Existing partners also get a new ongoing Shorts threshold — 10M qualified views per 90 days — which can affect Shorts-heavy active channels too.)
+
+**1 February 2027** is therefore not an arbitrary target — it's the day this pool of frustrated/locked-out creators becomes largest and most receptive to a credible alternative. The roadmap below works backward from that date.
+
+### 3.2 Month-by-month plan (~5 months, September 2026 → February 2027)
+
+| Timeframe | Focus | Key deliverables | Runs in parallel? |
 |---|---|---|---|
-| 1. Design & Validation | 1–2 days | Functional/technical design, name check, informal validation with creators | FD, TD, wireframes, GitHub repo |
-| 2. MVP (AI-assisted build) | 1–2 weeks | Core frontend + backend + upload/playback/search | Working demo: video grid, player, upload |
-| 3. Recommendations v1 | 1–2 weeks | Tag-based + trending as cold start; collaborative filtering once data exists | Working "suggested videos" |
-| 4. Monetization | 1 week | Ad integration, donations, subscriptions | Creators can earn |
-| 5. Legal Compliance | 4–8 weeks (parallel) | GDPR review, terms of service, moderation policy, DSA obligations assessment | Legally reviewed platform |
-| 6. Fundraising | 4–12 weeks (parallel) | Pitch deck, investor conversations, possible crowdfunding | Funding secured / runway extended |
-| 7. Community Building | Ongoing | Recruit early creators and viewers, set up governance process | Active early community |
-| 8. Launch | 2–4 weeks | Public launch, marketing push | Live platform |
-| 9. Scale & Iterate | Ongoing | Decentralized storage (Phase 2), governance votes on scope (e.g. 18+), optimization | Growing platform |
+| **Sep 2026** (now) | Design finalized, MVP build kicks off | FD/TD/GD/Branding docs (done), wireframes, Vibe Code build starts (frontend + backend scaffolding) | Legal & Finance chats already spun up this month |
+| **Oct 2026** | Core MVP build | Upload, playback, search working end-to-end on EU hosting | Legal: entity choice (ZZP vs BV), EUIPO trademark clearance search. Finance: hosting cost model, provider comparison |
+| **Nov 2026** | Recommendations v1 + monetization scaffolding | Tag-based/trending cold-start recommendations; monetization schema + stubbed UI (no live ad sales yet) | Legal: ToS/Privacy Policy first draft (GDPR-reviewed). Finance: runway/budget model finalized |
+| **Dec 2026** | Private/internal testing | Bug fixing, security review, small invite-only test group (former colleagues/students) | Legal: ToS/Privacy Policy finalized and published. Trademark filing decision made |
+| **Jan 2027** | Alpha readiness | Final polish, first real creator onboarding (targeting creators approaching the old 4,000-hour bar who won't make 8,000), content moderation basics in place | Legal sign-off deadline. Marketing push timed to public awareness of the YPP change |
+| **1 Feb 2027** | **Alpha launch** | Live, invite-limited alpha — not a full public launch, but real creators uploading real content on real EU infrastructure | Coincides deliberately with YouTube's new threshold taking effect |
 
-**Key takeaway:** technical build-out for a real MVP is realistically 1–2 months with AI tooling; legal, fundraising, and community work run in parallel and take 3–6 months and are the actual critical path.
+**What "alpha" means here, to be explicit:** a working, legally-covered (ToS/Privacy live), EU-hosted platform open to an initial cohort of creators — not a marketing-scale public launch. Decentralized storage, full ad-sales tooling, and the 18+ governance question remain out of scope for this milestone, per Section 2 above.
+
+### 3.3 What has to be true by 1 Feb 2027 for this to hold
+
+- ToS + Privacy Policy must be live (not just drafted) before any real user/creator data is collected — this is the hardest legal dependency and the one most likely to slip.
+- Trademark situation (the existing @MUNDIVEO conflict) needs resolution or a mitigation plan well before a public-facing push — a forced name change discovered *in* January would be the single biggest risk to this timeline.
+- Hosting cost model needs to be validated with real numbers, not estimates, before onboarding real creators whose videos cost real money to store and serve.
+- The technical build itself is the *least* likely part to slip, based on the 1–2 month AI-assisted estimate for a working MVP — legal and trademark resolution are the actual schedule risks.
+
+**Key takeaway:** the 5-month window is workable if legal/trademark work starts now and runs fully in parallel with the build, exactly as already set up via the dedicated Legal and Finance chats — but it leaves little slack. Any slippage on the trademark or ToS/Privacy front is the most likely thing to push the 1 February date.
 
 ---
 
