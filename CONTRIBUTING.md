@@ -2,11 +2,15 @@
 
 Thanks for your interest — this project is very early, so this document will grow quickly as the first contributors join.
 
+## Where to actually contribute
+
+This repo is mirrored on GitHub for visibility, but **Codeberg is the primary, active repository** — `[Codeberg URL once set up]`. Please open issues, discussions, and pull requests there rather than on the GitHub mirror.
+
 ## Right now, the most useful contributions are:
 
-- **Feedback on the concept** — open a GitHub Discussion or Issue with thoughts on `docs/PROJECT_CONCEPT.md`.
+- **Feedback on the concept** — open a Codeberg Issue with thoughts on `docs/PROJECT_CONCEPT.md`.
 - **Design/UX input** — especially around the wireframes as they land.
-- **Security-minded review** — if you spot something concerning in an early design decision, please flag it. If it's a genuine vulnerability in actual code once code exists, please use GitHub's private vulnerability reporting rather than a public issue.
+- **Security-minded review** — if you spot something concerning in an early design decision, please flag it. If it's a genuine vulnerability in actual code once code exists, please report it privately rather than via a public issue.
 
 ## Looking ahead
 

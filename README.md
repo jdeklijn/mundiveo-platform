@@ -6,6 +6,12 @@ A European, community-governed video platform — built as an alternative to You
 
 📺 This project is being built on camera. See the video series for the full story behind every decision.
 
+## Where this project lives
+
+As of September 2026, **Codeberg is the primary home for this repository** — an EU-based (Germany), non-profit, community-run Git host, chosen deliberately given MundiVeo's own GDPR-by-design and EU-sovereignty positioning. `[Codeberg URL once set up]`
+
+This GitHub repository is kept as a public mirror for visibility and discoverability, since GitHub is where people already look — but active development, issues, and pull requests happen on Codeberg going forward.
+
 ## Status
 
 🚧 **Concept / pre-MVP.** No production code yet. This repository exists to make the build process public from the start.
@@ -61,4 +67,4 @@ This project doesn't have external contributors yet — it's just getting starte
 
 ## License
 
-See [`LICENSE`](LICENSE). *(Placeholder — license choice to be finalized; leaning toward a copyleft license such as AGPL-3.0 to keep the project and any derivatives open, but not yet finalized.)*
+See [`LICENSE`](LICENSE). **AGPL-3.0** — chosen specifically because MundiVeo is a network service, not distributed software: plain GPL-3.0 only triggers source-sharing on distribution, which a hosted platform never technically does (the well-known "SaaS loophole"). AGPL-3.0 closes that gap, requiring anyone who runs a modified version as a network service to also offer their source to users — keeping the project and any derivatives genuinely open. This also matches the license used by PeerTube and by Forgejo (which powers Codeberg, where this project is now primarily hosted).
