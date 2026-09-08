@@ -8,7 +8,7 @@ A European, community-governed video platform — built as an alternative to You
 
 ## Where this project lives
 
-As of September 2026, **Codeberg is the primary home for this repository** — an EU-based (Germany), non-profit, community-run Git host, chosen deliberately given MundiVeo's own GDPR-by-design and EU-sovereignty positioning. `[Codeberg URL once set up]`
+As of September 2026, **Codeberg is the primary home for this repository** — an EU-based (Germany), non-profit, community-run Git host, chosen deliberately given MundiVeo's own GDPR-by-design and EU-sovereignty positioning. https://codeberg.org/Mundiveo-platform/Mundiveo_platform
 
 This GitHub repository is kept as a public mirror for visibility and discoverability, since GitHub is where people already look — but active development, issues, and pull requests happen on Codeberg going forward.
 
