@@ -22,7 +22,7 @@ For the "why" behind tool choices in general, see the sovereignty/GDPR-by-design
 ---
 
 ## 2. Scrum / Project Management
-
+**Open / not yet decided** (parked for actual community discussion, not to be forced now):
 **Starting point (lowest friction, nothing new to set up):**
 - Codeberg's built-in Issues + Project Boards (Forgejo), for basic Kanban-style tracking. Likely sufficient for the earliest stage, before task ownership needs anything more structured.
 
@@ -38,7 +38,6 @@ For the "why" behind tool choices in general, see the sovereignty/GDPR-by-design
 
 **Decided:**
 - **Proton Mail** — already in use for project email, replacing Gmail.
-- **Jitsi Meet** — open-source, self-hostable video calls, no account required to join. Intended for community/team calls without pulling contributors into Zoom or Google Meet.
 
 **Being evaluated:**
 - **Proton Meet** — Proton's own end-to-end encrypted video calling product, launched in 2026. Philosophically consistent with the rest of the Proton-based stack; not yet committed to as the primary call tool pending a closer look at meeting-size limits and browser support.

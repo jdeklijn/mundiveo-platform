@@ -162,3 +162,60 @@ For the v1/cold-start implementation, see `VIBE_CODE_BRIEF.md` Section 5.
 - How takedown requests propagate to distributed nodes in practice.
 - Minimum reliability/backup guarantees so availability doesn't depend on one household's internet connection.
 - Whether node operators need any form of agreement/liability waiver with the platform.
+
+## 7. — AI-Assisted Development Policy
+
+
+## 7.1 Why this section exists
+
+MundiVeo's NLnet grant carries a Generative AI policy that draws a hard line between two things that look similar but are treated very differently:
+
+- **AI-assisted development** — a human writes, reviews, and takes responsibility for the code; AI tools (autocomplete, pair-programming suggestions, refactor help) may speed up that human's work. This is compliant and payable.
+- **AI-generated development** — code is produced wholesale by an AI tool and merged without a human genuinely authoring and understanding it. NLnet does not consider this eligible for payment as grant-funded work, and some NLnet-funded projects (e.g. NLnet Labs) reject AI-generated contributions outright.
+
+This distinction is not a formality. It determines whether the hours spent building MundiVeo can actually be claimed against the NLnet grant, and it protects the project from a funder relationship problem later if this isn't decided up front — this is why it's being written into the TD now, before any contributor starts writing code, rather than after.
+
+## 7.2 What counts as compliant AI assistance
+
+Permitted, without special process beyond disclosure (7.3):
+
+- Inline autocomplete / "ghost text" suggestions (e.g. Copilot-style, single lines or short blocks) that the author reviews and edits as their own.
+- Using an AI assistant to explain, debug, or suggest a fix for code the author already wrote.
+- Using an AI assistant as a rubber-duck / architecture sounding board, where the resulting design is written up and implemented by the human.
+- AI-assisted refactoring or test-writing, provided the author reviews every change and can explain what it does and why.
+
+**Not permitted as grant-payable work:**
+
+- Prompting an AI tool to generate a feature, endpoint, or component wholesale and merging it with only superficial review ("vibe coding").
+- Submitting AI output that the contributor cannot explain line-by-line if asked.
+- Any AI-assisted output that has not been checked for FLOS-license compatibility (see 7.4).
+
+**The test that decides which side of the line something is on:** *could the author sit down and explain, unaided, exactly what this code does and why it was written this way?* If not, it doesn't meet the human-authorship bar regardless of how it was produced.
+
+## 7.3 Disclosure & prompt provenance logging
+
+For any commit or pull request where AI assistance materially contributed to the change (i.e. beyond trivial autocomplete):
+
+- The commit message or PR description must include a short disclosure line, e.g.:
+  `AI-assisted: [tool name] used for [scope — e.g. "initial draft of validation logic, human-reviewed and modified"]`
+- A prompt provenance log must be kept for that contribution, recording: the tool/model used, the date, and the substance of the prompt(s) that produced material output. This can live in a `docs/ai-provenance/` folder in the repo, one file per PR, rather than inline in commit messages, to keep history clean.
+- Trivial autocomplete-level assistance does not need a full log entry, but should still be covered by the general disclosure line above where reasonably practical.
+
+This logging exists to make MundiVeo's NLnet reporting straightforward and to give any future code reviewer or auditor a clear trail — not as a bureaucratic hurdle.
+
+## 7.4 License and IP compatibility
+
+Any AI-assisted output must be checked, before merge, for compatibility with MundiVeo's AGPL-3.0 licensing:
+
+- Verify the AI tool's terms of use permit commercial/FLOS use of its output.
+- Watch for output that closely resembles known copyrighted or non-FLOS-compatible source material (a risk with larger generated blocks — another reason to keep AI contributions small and human-reviewed rather than large and wholesale).
+
+## 7.5 Contributor & reviewer responsibilities
+
+- **Contributors** are responsible for disclosure and provenance logging on their own submissions, and must be able to explain their code in review if asked.
+- **Code reviewers** (once in place — see open recruitment gap) are responsible for checking that disclosure requirements were followed and, where something reads as "too generated," asking the contributor to walk through it before approval.
+- This section should be cross-referenced from `CONTRIBUTING.md` once that file exists, and factored into the CLA decision — a CLA can require this disclosure as a condition of contribution.
+
+## 7.6 What this means for the roadmap
+
+Practically: MundiVeo's coding phases (`PROJECT_CONCEPT.md` Section 3, Phases 2–4) should be planned around AI-*assisted*, human-authored timelines, not AI-*generated* ones. The original "1–2 weeks per phase" estimates assumed the latter and should be treated as superseded — see the separate timeline recalculation for current estimates.
