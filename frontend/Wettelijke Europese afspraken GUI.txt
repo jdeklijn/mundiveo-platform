@@ -1,0 +1,4 @@
+
+The legal reality: the European Accessibility Act has been enforceable since June 28, 2025, and it applies to private digital services offered to EU consumers — audiovisual media platforms are explicitly in scope, not just public-sector sites. The compliance standard is EN 301 549, which is built on WCAG 2.1 Level AA (a WCAG 2.2-aligned update is expected later in 2026). 
+
+One nuance worth a lawyer's confirmation rather than my assumption: the platform's own UI (navigation, upload flow, search) is unambiguously in scope; whether MundiVeo is obligated to caption every piece of user-uploaded content, versus just providing the tools for creators to do so, is a more specific question worth putting to whoever ends up doing the GDPR/ToS legal review.

@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MundiVeo — GUI Mockup by Role</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Sans+3:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0F2C4C;
+    --slate:#3A5A7A;
+    --teal:#00C2A8;
+    --bg:#0B1520;
+    --surface:#152535;
+    --surface-2:#1C2E42;
+    --border:rgba(255,255,255,0.08);
+    --text:#F0F4F8;
+    --muted:#8FA3B8;
+    --danger:#D9614E;
+    --warn:#D9A544;
+    /* "-ink" tokens are for TEXT drawn directly on the page background.
+       In dark mode the base colors already clear WCAG AA; in light mode
+       they're overridden below to darker variants that still pass AA
+       on a white/off-white background. */
+    --teal-ink:var(--teal);
+    --warn-ink:var(--warn);
+    --danger-ink:var(--danger);
+  }
+  /* Light theme — uses the light-mode values already defined in BRANDING.md,
+     not new colors. Checked against WCAG 2.1 AA (4.5:1 body text):
+     muted #5A6A7A on white ≈ 5.6:1, ink teal #00806D on white ≈ 4.9:1. */
+  [data-theme="light"]{
+    --bg:#FFFFFF;
+    --surface:#F7F9FC;
+    --surface-2:#E8EEF4;
+    --border:rgba(15,44,76,0.14);
+    --text:#1A1F2E;
+    --muted:#5A6A7A;
+    --teal-ink:#00806D;
+    --warn-ink:#8A6512;
+    --danger-ink:#B33A28;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Source Sans 3', ui-sans-serif, system-ui, sans-serif;
+    line-height:1.45;
+    transition:background .2s ease, color .2s ease;
+  }
+  /* Visible keyboard focus (WCAG 2.4.7) */
+  a:focus-visible, button:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+    outline:2px solid var(--teal-ink);
+    outline-offset:2px;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+  }
+  h1,h2,h3,.display{
+    font-family:'Fraunces', Georgia, serif;
+    font-weight:600;
+    letter-spacing:-0.01em;
+    margin:0;
+  }
+  a{color:inherit;text-decoration:none;}
+  button{font-family:inherit;cursor:pointer;}
+
+  /* ---------- Top chrome ---------- */
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:16px 28px;
+    border-bottom:1px solid var(--border);
+    flex-wrap:wrap;
+  }
+  .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo svg{flex:none;}
+  .logo .word{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--text);}
+  .prototype-note{
+    font-size:12px;
+    color:var(--muted);
+    padding:5px 10px;
+    border:1px dashed var(--border);
+    border-radius:4px;
+  }
+  .role-switch{
+    display:flex;
+    gap:4px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:4px;
+  }
+  .role-switch button{
+    border:none;
+    background:transparent;
+    color:var(--muted);
+    padding:7px 14px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:600;
+    transition:background .15s, color .15s;
+  }
+  .role-switch button.active{
+    background:var(--teal);
+    color:#03211C;
+  }
+  .search{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:8px 12px;
+    color:var(--muted);
+    font-size:14px;
+    min-width:220px;
+  }
+  .a11y-controls{display:flex;align-items:center;gap:8px;}
+  .a11y-controls button, .a11y-controls select{
+    background:var(--surface);border:1px solid var(--border);color:var(--text);
+    border-radius:6px;font-size:13px;font-weight:600;padding:6px 9px;
+  }
+  .fs-stepper{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+  .fs-stepper button{border:none;border-radius:0;padding:6px 9px;}
+  .fs-stepper button:first-child{border-right:1px solid var(--border);}
+
+  /* ---------- Layout shell ---------- */
+  main{padding:28px;max-width:1240px;margin:0 auto;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .section-label{
+    font-size:12px;
+    color:var(--muted);
+    margin-bottom:10px;
+  }
+
+  /* ---------- Video thumbnails (shared) ---------- */
+  .thumb{
+    aspect-ratio:16/9;
+    border-radius:8px;
+    position:relative;
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    padding:8px;
+    border:1px solid var(--border);
+  }
+  .thumb .dur{
+    background:rgba(0,0,0,0.55);
+    font-size:11px;
+    padding:2px 6px;
+    border-radius:4px;
+    margin-left:auto;
+  }
+  .thumb .play{
+    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    opacity:0;transition:opacity .15s;
+  }
+  .thumb:hover .play{opacity:1;}
+  .video-card .meta{padding-top:8px;}
+  .video-card .title{font-size:14px;font-weight:600;margin-bottom:2px;}
+  .video-card .sub{font-size:12px;color:var(--muted);}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(220px,1fr));
+    gap:22px 18px;
+  }
+
+  /* ---------- VISITOR ---------- */
+  .visitor-hero{
+    display:flex;justify-content:space-between;align-items:flex-end;
+    margin-bottom:24px;flex-wrap:wrap;gap:14px;
+  }
+  .signin-cta{
+    display:flex;gap:10px;
+  }
+  .btn{
+    padding:9px 16px;border-radius:7px;font-size:14px;font-weight:600;border:1px solid var(--border);
+  }
+  .btn-ghost{background:transparent;color:var(--text);}
+  .btn-solid{background:var(--teal);color:#03211C;border-color:var(--teal);}
+  .gate-tag{
+    position:absolute;top:8px;left:8px;font-size:10px;background:rgba(11,21,32,0.75);
+    padding:3px 7px;border-radius:4px;color:var(--muted);
+  }
+
+  /* ---------- USER (watch page) ---------- */
+  .watch-layout{display:grid;grid-template-columns:1fr 320px;gap:26px;}
+  @media (max-width:860px){.watch-layout{grid-template-columns:1fr;}}
+  .player{
+    aspect-ratio:16/9;border-radius:10px;border:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;position:relative;
+  }
+  .player .bar{position:absolute;bottom:0;left:0;right:0;height:4px;background:rgba(255,255,255,0.15);}
+  .player .bar span{display:block;width:38%;height:100%;background:var(--teal);}
+  .watch-title{font-size:22px;margin:16px 0 6px;}
+  .watch-actions{display:flex;gap:10px;align-items:center;margin:14px 0;flex-wrap:wrap;}
+  .pill-btn{
+    display:flex;align-items:center;gap:6px;background:var(--surface);
+    border:1px solid var(--border);border-radius:999px;padding:8px 14px;font-size:13px;font-weight:600;
+  }
+  .pill-btn.active{color:var(--teal-ink);border-color:var(--teal-ink);}
+  .comment{display:flex;gap:10px;margin-bottom:16px;}
+  .avatar{
+    width:34px;height:34px;border-radius:50%;background:var(--slate);flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;
+  }
+  .comment .name{font-size:13px;font-weight:600;}
+  .comment .text{font-size:13px;color:var(--muted);}
+  .why-tag{
+    font-size:11px;color:var(--teal-ink);margin-top:6px;
+  }
+  .upnext-item{display:flex;gap:10px;margin-bottom:14px;}
+  .upnext-item .thumb{width:130px;flex:none;aspect-ratio:16/9;}
+  .upnext-item .info{font-size:13px;}
+  .upnext-item .info .t{font-weight:600;margin-bottom:3px;}
+  .upnext-item .info .s{color:var(--muted);font-size:11px;}
+
+  /* ---------- CREATOR (studio) ---------- */
+  .studio{display:grid;grid-template-columns:190px 1fr;gap:0;border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+  @media (max-width:760px){.studio{grid-template-columns:1fr;}}
+  .studio-nav{background:var(--surface);border-right:1px solid var(--border);padding:18px 0;}
+  .studio-nav a{
+    display:block;padding:10px 20px;font-size:14px;color:var(--muted);font-weight:600;
+  }
+  .studio-nav a.active{color:var(--text);background:var(--surface-2);border-right:2px solid var(--teal);}
+  .studio-main{padding:24px;}
+  .stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:26px;}
+  .stat{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;}
+  .stat .num{font-family:'Fraunces',serif;font-size:26px;}
+  .stat .lbl{font-size:12px;color:var(--muted);margin-top:4px;}
+  .chart{display:flex;align-items:flex-end;gap:6px;height:110px;margin:6px 0 4px;}
+  .chart div{flex:1;background:linear-gradient(180deg,var(--teal),var(--slate));border-radius:3px 3px 0 0;}
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{text-align:left;color:var(--muted);font-weight:600;padding:8px 10px;border-bottom:1px solid var(--border);font-size:12px;}
+  td{padding:10px;border-bottom:1px solid var(--border);}
+  .badge{font-size:11px;padding:2px 8px;border-radius:999px;font-weight:600;}
+  .badge-live{background:rgba(0,194,168,0.15);color:var(--teal-ink);}
+  .badge-processing{background:rgba(217,165,68,0.15);color:var(--warn-ink);}
+  .upload-zone{
+    border:1.5px dashed var(--border);border-radius:10px;padding:22px;text-align:center;
+    color:var(--muted);font-size:13px;margin-bottom:24px;
+  }
+  .mon-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:14px 0;border-bottom:1px solid var(--border);
+  }
+  .mon-row:last-child{border-bottom:none;}
+  .mon-row .name{font-weight:600;font-size:14px;}
+  .mon-row .desc{font-size:12px;color:var(--muted);}
+  .toggle{
+    width:38px;height:22px;border-radius:999px;background:var(--surface-2);border:1px solid var(--border);position:relative;flex:none;
+  }
+  .toggle span{position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--muted);}
+  .phase-tag{font-size:10px;color:var(--warn-ink);border:1px solid var(--warn-ink);padding:1px 6px;border-radius:4px;margin-left:8px;}
+
+  /* ---------- MODERATOR ---------- */
+  .filter-tabs{display:flex;gap:18px;border-bottom:1px solid var(--border);margin-bottom:18px;}
+  .filter-tabs span{padding:8px 2px;font-size:13px;font-weight:600;color:var(--muted);border-bottom:2px solid transparent;}
+  .filter-tabs span.active{color:var(--text);border-color:var(--teal);}
+  .queue-row{
+    display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;
+    padding:14px 0;border-bottom:1px solid var(--border);
+  }
+  .queue-row .qthumb{aspect-ratio:16/9;border-radius:6px;}
+  .queue-row .reason{font-size:12px;color:var(--warn-ink);margin-top:3px;}
+  .row-actions{display:flex;gap:8px;}
+  .row-actions button{font-size:12px;padding:6px 12px;border-radius:6px;font-weight:600;}
+  .act-approve{background:rgba(0,194,168,0.15);color:var(--teal-ink);border:1px solid transparent;}
+  .act-remove{background:rgba(217,97,78,0.15);color:var(--danger-ink);border:1px solid transparent;}
+  .act-escalate{background:transparent;color:var(--muted);border:1px solid var(--border);}
+
+  /* ---------- ADMIN ---------- */
+  .admin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+  .settings-group{background:var(--surface);border:1px solid var(--border);border-radius:10px;margin-bottom:18px;overflow:hidden;}
+  .settings-group h3{font-size:14px;padding:14px 16px;border-bottom:1px solid var(--border);font-family:'Source Sans 3';font-weight:700;}
+  .settings-row{
+    display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--border);
+  }
+  .settings-row:last-child{border-bottom:none;}
+  .settings-row .name{font-size:13px;font-weight:600;}
+  .settings-row .desc{font-size:12px;color:var(--muted);margin-top:2px;}
+  .role-tag{font-size:11px;padding:2px 8px;border-radius:5px;background:var(--surface-2);color:var(--muted);}
+
+  h2.block-title{font-size:18px;margin-bottom:16px;}
+
+  ::-webkit-scrollbar{width:8px;height:8px;}
+  ::-webkit-scrollbar-thumb{background:var(--surface-2);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="logo">
+    <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="11" stroke="#00C2A8" stroke-width="2"/>
+      <path d="M10.5 8.5L18 13L10.5 17.5V8.5Z" fill="#00C2A8"/>
+    </svg>
+    <span class="word">mundiveo</span>
+  </div>
+  <div class="search">🔍&nbsp; <span data-i18n="searchPlaceholder">Search videos, tags, creators…</span></div>
+  <div class="a11y-controls" role="group" aria-label="Display settings">
+    <button id="themeToggle" type="button" title="Switch to light theme" aria-pressed="false">🌙</button>
+    <div class="fs-stepper" role="group" aria-label="Text size">
+      <button id="fsDown" type="button" aria-label="Decrease text size">A−</button>
+      <button id="fsUp" type="button" aria-label="Increase text size">A+</button>
+    </div>
+    <select id="langSelect" aria-label="Language">
+      <option value="en">EN</option>
+      <option value="nl">NL</option>
+      <option value="de">DE</option>
+      <option value="fr">FR</option>
+      <option value="es">ES</option>
+    </select>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;">
+    <span class="prototype-note" data-i18n="protoNote">Prototype — pick a role to preview its screen</span>
+    <div class="role-switch" id="roleSwitch">
+      <button data-role="visitor" data-i18n="roleVisitor" class="active">Visitor</button>
+      <button data-role="user" data-i18n="roleUser">User</button>
+      <button data-role="creator" data-i18n="roleCreator">Creator</button>
+      <button data-role="advertiser" data-i18n="roleAdvertiser">Advertiser</button>
+      <button data-role="moderator" data-i18n="roleModerator">Moderator</button>
+      <button data-role="admin" data-i18n="roleAdmin">Admin</button>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- ============ VISITOR ============ -->
+  <div class="panel active" id="panel-visitor">
+    <div class="visitor-hero">
+      <div>
+        <h1 style="font-size:24px;" data-i18n="visitorHeading">Trending on MundiVeo</h1>
+        <p style="color:var(--muted);font-size:13px;margin-top:4px;" data-i18n="visitorSub">Watching is free — sign in to like, comment and follow creators.</p>
+      </div>
+      <div class="signin-cta">
+        <button class="btn btn-ghost" data-i18n="signIn">Sign in</button>
+        <button class="btn btn-solid" data-i18n="signUp">Sign up</button>
+      </div>
+    </div>
+    <div class="grid" id="visitorGrid"></div>
+  </div>
+
+  <!-- ============ USER (watch page) ============ -->
+  <div class="panel" id="panel-user">
+    <div class="watch-layout">
+      <div>
+        <div class="player" style="background:linear-gradient(135deg,#152535,#0F2C4C);">
+          <svg width="46" height="46" viewBox="0 0 46 46"><circle cx="23" cy="23" r="23" fill="rgba(255,255,255,0.12)"/><path d="M18 14L32 23L18 32V14Z" fill="#fff"/></svg>
+          <div class="bar"><span></span></div>
+        </div>
+        <h2 class="watch-title">Why the EU AI Act Actually Matters for Creators</h2>
+        <div style="color:var(--muted);font-size:12px;margin-bottom:10px;">142K views · Uploaded 3 days ago</div>
+        <div class="watch-actions">
+          <div class="pill-btn active">👍 <span data-i18n="actionLike">Like</span> · 8.2K</div>
+          <div class="pill-btn">💬 <span data-i18n="actionComment">Comment</span></div>
+          <div class="pill-btn">↗ <span data-i18n="actionShare">Share</span></div>
+          <div class="pill-btn">＋ <span data-i18n="actionFollow">Follow</span></div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin:18px 0;"></div>
+        <h3 style="font-size:14px;margin-bottom:14px;"><span data-i18n="commentsHeading">Comments</span> (86)</h3>
+        <div class="comment">
+          <div class="avatar">JM</div>
+          <div><div class="name">Jasper M.</div><div class="text">Good breakdown — finally someone explains the compliance side without the scare tactics.</div></div>
+        </div>
+        <div class="comment">
+          <div class="avatar">EL</div>
+          <div><div class="name">Elin V.</div><div class="text">Would love a follow-up on how this affects small creators specifically.</div></div>
+        </div>
+      </div>
+      <div>
+        <div class="section-label" data-i18n="upNext">Up next</div>
+        <div class="upnext-item">
+          <div class="thumb" style="background:linear-gradient(135deg,#3A5A7A,#0F2C4C);"><span class="dur">6:12</span></div>
+          <div class="info"><div class="t">Renewable Energy 101</div><div class="s">62K views</div><div class="why-tag">Because you watched EU policy videos</div></div>
+        </div>
+        <div class="upnext-item">
+          <div class="thumb" style="background:linear-gradient(135deg,#00C2A8,#152535);"><span class="dur">11:04</span></div>
+          <div class="info"><div class="t">Debunking Common GDPR Myths</div><div class="s">38K views</div><div class="why-tag">Popular with viewers of this video</div></div>
+        </div>
+        <div class="upnext-item">
+          <div class="thumb" style="background:linear-gradient(135deg,#0F2C4C,#3A5A7A);"><span class="dur">9:47</span></div>
+          <div class="info"><div class="t">Open Source Deep Dive: PostgreSQL</div><div class="s">21K views</div><div class="why-tag">From a creator you follow</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CREATOR (studio) ============ -->
+  <div class="panel" id="panel-creator">
+    <h2 class="block-title" data-i18n="studioHeading">Studio</h2>
+    <div class="studio">
+      <div class="studio-nav">
+        <a class="active" data-i18n="navDashboard">Dashboard</a>
+        <a data-i18n="navVideos">Videos</a>
+        <a data-i18n="navAnalytics">Analytics</a>
+        <a data-i18n="navMonetization">Monetization</a>
+        <a data-i18n="navComments">Comments</a>
+      </div>
+      <div class="studio-main">
+        <div class="upload-zone">⬆ Drag a video file here, or click to upload</div>
+        <div style="display:flex;align-items:center;gap:8px;margin:-14px 0 24px;font-size:12px;color:var(--muted);">
+          <div class="toggle" style="background:rgba(0,194,168,0.25);border-color:var(--teal-ink);transform:scale(0.75);"><span style="left:auto;right:2px;background:var(--teal-ink);"></span></div>
+          Auto-generate captions on upload — you review and edit before publishing
+        </div>
+        <div class="stat-row">
+          <div class="stat"><div class="num">18.4K</div><div class="lbl">Views, last 28 days</div></div>
+          <div class="stat"><div class="num">1,204</div><div class="lbl">Subscribers</div></div>
+          <div class="stat"><div class="num">312h</div><div class="lbl">Watch time</div></div>
+          <div class="stat"><div class="num">—</div><div class="lbl">Est. revenue <span class="phase-tag">Phase 2</span></div></div>
+        </div>
+        <div class="section-label">Views over time</div>
+        <div class="chart">
+          <div style="height:30%"></div><div style="height:45%"></div><div style="height:38%"></div>
+          <div style="height:60%"></div><div style="height:52%"></div><div style="height:74%"></div>
+          <div style="height:66%"></div><div style="height:88%"></div><div style="height:80%"></div>
+          <div style="height:95%"></div><div style="height:70%"></div><div style="height:84%"></div>
+        </div>
+        <div style="border-top:1px solid var(--border);margin:24px 0;"></div>
+        <table>
+          <tr><th>Video</th><th>Status</th><th>Views</th><th>Likes</th><th>Uploaded</th></tr>
+          <tr><td>Why the EU AI Act Actually Matters</td><td><span class="badge badge-live">✓ Live</span></td><td>142K</td><td>8.2K</td><td>3 days ago</td></tr>
+          <tr><td>A Week in Reykjavik</td><td><span class="badge badge-live">✓ Live</span></td><td>54K</td><td>3.1K</td><td>2 weeks ago</td></tr>
+          <tr><td>Fixing My Own Bike: Full Guide</td><td><span class="badge badge-processing">◔ Processing</span></td><td>—</td><td>—</td><td>Just now</td></tr>
+        </table>
+        <div style="border-top:1px solid var(--border);margin:24px 0;"></div>
+        <div class="section-label">Monetization</div>
+        <div class="mon-row">
+          <div><div class="name">Ad revenue<span class="phase-tag">Phase 2</span></div><div class="desc">Share of ad revenue on eligible videos</div></div>
+          <div class="toggle"><span></span></div>
+        </div>
+        <div class="mon-row">
+          <div><div class="name">Donations<span class="phase-tag">Phase 2</span></div><div class="desc">Let viewers send one-off support</div></div>
+          <div class="toggle"><span></span></div>
+        </div>
+        <div class="mon-row">
+          <div><div class="name">Subscriptions<span class="phase-tag">Phase 2</span></div><div class="desc">Paid channel memberships</div></div>
+          <div class="toggle"><span></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ADVERTISER ============ -->
+  <div class="panel" id="panel-advertiser">
+    <h2 class="block-title" data-i18n="advHeading">Advertiser console</h2>
+    <div class="studio">
+      <div class="studio-nav">
+        <a class="active" data-i18n="navDashboard">Dashboard</a>
+        <a data-i18n="navCampaigns">Campaigns</a>
+        <a data-i18n="navCreatives">Creatives</a>
+        <a data-i18n="navBilling">Billing</a>
+      </div>
+      <div class="studio-main">
+        <div class="stat-row">
+          <div class="stat"><div class="num">2</div><div class="lbl">Active campaigns</div></div>
+          <div class="stat"><div class="num">€5,000</div><div class="lbl">Spend this month</div></div>
+          <div class="stat"><div class="num">1.3M</div><div class="lbl">Impressions</div></div>
+          <div class="stat"><div class="num">€4.20</div><div class="lbl">Avg. CPM</div></div>
+        </div>
+
+        <div class="section-label">Campaigns</div>
+        <table>
+          <tr><th>Campaign</th><th>Status</th><th>Budget</th><th>Spent</th><th>Impressions</th><th>CTR</th></tr>
+          <tr><td>Q4 Product Launch — Benelux</td><td><span class="badge badge-live">✓ Active</span></td><td>€2,000</td><td>€1,140</td><td>412K</td><td>1.8%</td></tr>
+          <tr><td>Brand Awareness — DACH</td><td><span class="badge" style="background:rgba(143,163,184,0.15);color:var(--muted);">❚❚ Paused</span></td><td>€5,000</td><td>€3,860</td><td>890K</td><td>1.2%</td></tr>
+          <tr><td>Spring Push — New Draft</td><td><span class="badge badge-processing">◔ Under review</span></td><td>€500</td><td>€0</td><td>—</td><td>—</td></tr>
+        </table>
+
+        <div style="border-top:1px solid var(--border);margin:24px 0;"></div>
+        <div class="section-label">New campaign — targeting</div>
+        <p style="font-size:12px;color:var(--muted);margin:-4px 0 14px;">MundiVeo targets by content category and region, not personal browsing history or cross-site tracking — this stays consistent with our privacy-first positioning.</p>
+
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Ad format</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <div class="pill-btn active">Pre-roll</div>
+          <div class="pill-btn">Display banner</div>
+          <div class="pill-btn">Sponsored placement</div>
+        </div>
+
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Content categories</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+          <div class="pill-btn active">Technology</div>
+          <div class="pill-btn active">Climate &amp; Environment</div>
+          <div class="pill-btn">Travel</div>
+          <div class="pill-btn">Food</div>
+          <div class="pill-btn">DIY &amp; Making</div>
+        </div>
+
+        <div style="font-size:12px;color:var(--muted);margin-bottom:6px;">Region</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+          <div class="pill-btn active">Netherlands</div>
+          <div class="pill-btn active">Belgium</div>
+          <div class="pill-btn">Germany</div>
+          <div class="pill-btn">France</div>
+        </div>
+
+        <div class="upload-zone">⬆ Drag a creative here (video, image, or sponsored copy)</div>
+
+        <div style="border-top:1px solid var(--border);margin:24px 0;"></div>
+        <div class="section-label">Billing</div>
+        <div class="mon-row">
+          <div><div class="name">Payment method</div><div class="desc">Visa •••• 4242</div></div>
+          <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;">Update</button>
+        </div>
+        <div class="mon-row">
+          <div><div class="name">Invoice — Aug 2026</div><div class="desc">€4,310 · Paid</div></div>
+          <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;">Download</button>
+        </div>
+        <div class="mon-row">
+          <div><div class="name">Invoice — Jul 2026</div><div class="desc">€3,920 · Paid</div></div>
+          <button class="btn btn-ghost" style="padding:6px 12px;font-size:12px;">Download</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODERATOR ============ -->
+  <div class="panel" id="panel-moderator">
+    <h2 class="block-title" data-i18n="modHeading">Review queue</h2>
+    <div class="filter-tabs">
+      <span class="active">All (14)</span>
+      <span>Videos (9)</span>
+      <span>Comments (4)</span>
+      <span>Copyright claims (1)</span>
+    </div>
+    <div class="queue-row">
+      <div class="qthumb thumb" style="background:linear-gradient(135deg,#3A5A7A,#0F2C4C);"></div>
+      <div><div style="font-weight:600;font-size:14px;">Street Food Tour: Istanbul</div><div class="reason">Flagged: possible misleading title</div></div>
+      <div class="row-actions">
+        <button class="act-approve">Approve</button>
+        <button class="act-remove">Remove</button>
+        <button class="act-escalate">Escalate</button>
+      </div>
+    </div>
+    <div class="queue-row">
+      <div class="qthumb thumb" style="background:linear-gradient(135deg,#00C2A8,#152535);"></div>
+      <div><div style="font-weight:600;font-size:14px;">Comment on "Slow Travel: Lisbon by Train"</div><div class="reason">Flagged: harassment</div></div>
+      <div class="row-actions">
+        <button class="act-approve">Approve</button>
+        <button class="act-remove">Remove</button>
+        <button class="act-escalate">Escalate</button>
+      </div>
+    </div>
+    <div class="queue-row">
+      <div class="qthumb thumb" style="background:linear-gradient(135deg,#0F2C4C,#3A5A7A);"></div>
+      <div><div style="font-weight:600;font-size:14px;">Building a Raspberry Pi NAS</div><div class="reason">Copyright claim: background music</div></div>
+      <div class="row-actions">
+        <button class="act-approve">Dismiss claim</button>
+        <button class="act-remove">Remove video</button>
+        <button class="act-escalate">Escalate</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN ============ -->
+  <div class="panel" id="panel-admin">
+    <h2 class="block-title" data-i18n="adminHeading">Platform overview</h2>
+    <div class="admin-stats">
+      <div class="stat"><div class="num">6,204</div><div class="lbl">Registered users</div></div>
+      <div class="stat"><div class="num">312</div><div class="lbl">Creators</div></div>
+      <div class="stat"><div class="num">1.9K</div><div class="lbl">Videos hosted</div></div>
+      <div class="stat"><div class="num">14</div><div class="lbl">Open reports</div></div>
+    </div>
+
+    <div class="settings-group">
+      <h3>User management</h3>
+      <table style="padding:0 16px;">
+        <tr><th style="padding-left:16px;">User</th><th>Role</th><th>Status</th><th>Joined</th><th></th></tr>
+        <tr><td style="padding-left:16px;">jasper.m</td><td><span class="role-tag">User</span></td><td>Active</td><td>Aug 2026</td><td style="color:var(--muted);">Suspend</td></tr>
+        <tr><td style="padding-left:16px;">elin.v</td><td><span class="role-tag">Creator</span></td><td>Active</td><td>Jul 2026</td><td style="color:var(--muted);">Suspend</td></tr>
+        <tr><td style="padding-left:16px;">tomasz.k</td><td><span class="role-tag">Moderator</span></td><td>Active</td><td>Jun 2026</td><td style="color:var(--muted);">Suspend</td></tr>
+      </table>
+    </div>
+
+    <div class="settings-group">
+      <h3>Platform settings</h3>
+      <div class="settings-row">
+        <div><div class="name">Allow new registrations</div><div class="desc">Open sign-ups to the public</div></div>
+        <div class="toggle" style="background:rgba(0,194,168,0.25);border-color:var(--teal);"><span style="left:auto;right:2px;background:var(--teal);"></span></div>
+      </div>
+      <div class="settings-row">
+        <div><div class="name">Maintenance mode</div><div class="desc">Show a maintenance banner site-wide</div></div>
+        <div class="toggle"><span></span></div>
+      </div>
+      <div class="settings-row">
+        <div><div class="name">Community proposal voting</div><div class="desc">Let the community vote on governance proposals</div></div>
+        <div class="toggle" style="background:rgba(0,194,168,0.25);border-color:var(--teal);"><span style="left:auto;right:2px;background:var(--teal);"></span></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script>
+  const titles = [
+    ["Why the EU AI Act Actually Matters for Creators","142K views","6:12"],
+    ["Slow Travel: Lisbon by Train","62K views","11:04"],
+    ["Renewable Energy 101","38K views","9:47"],
+    ["Building a Raspberry Pi NAS","54K views","14:22"],
+    ["Sourdough From Scratch","21K views","8:03"],
+    ["Why Public Broadcasters Still Matter","29K views","10:18"],
+    ["A Week in Reykjavik","54K views","12:40"],
+    ["Open Source Deep Dive: PostgreSQL","21K views","17:55"],
+    ["The Alps After the Snowline","33K views","7:29"],
+    ["Debunking Common GDPR Myths","38K views","9:12"],
+    ["Street Food Tour: Istanbul","46K views","13:01"],
+    ["Fixing My Own Bike: Full Guide","19K views","15:37"]
+  ];
+  const gradients = [
+    "linear-gradient(135deg,#0F2C4C,#3A5A7A)",
+    "linear-gradient(135deg,#3A5A7A,#00C2A8)",
+    "linear-gradient(135deg,#152535,#0F2C4C)",
+    "linear-gradient(135deg,#00C2A8,#152535)"
+  ];
+  const grid = document.getElementById('visitorGrid');
+  titles.forEach((t,i)=>{
+    const card = document.createElement('div');
+    card.className = 'video-card';
+    card.innerHTML = `
+      <div class="thumb" style="background:${gradients[i % gradients.length]};">
+        <span class="gate-tag">Sign in to like &amp; save</span>
+        <svg class="play" width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="17" fill="rgba(0,0,0,0.45)"/><path d="M13 10L24 17L13 24V10Z" fill="#fff"/></svg>
+        <span class="dur">${t[2]}</span>
+      </div>
+      <div class="meta"><div class="title">${t[0]}</div><div class="sub">${t[1]}</div></div>
+    `;
+    grid.appendChild(card);
+  });
+
+  const buttons = document.querySelectorAll('#roleSwitch button');
+  buttons.forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      buttons.forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+      document.getElementById('panel-'+btn.dataset.role).classList.add('active');
+    });
+  });
+
+  /* ---------- Theme toggle ---------- */
+  const themeBtn = document.getElementById('themeToggle');
+  themeBtn.addEventListener('click', ()=>{
+    const html = document.documentElement;
+    const goingLight = html.getAttribute('data-theme') !== 'light';
+    if(goingLight){ html.setAttribute('data-theme','light'); themeBtn.textContent='☀️'; themeBtn.title='Switch to dark theme'; themeBtn.setAttribute('aria-pressed','true'); }
+    else{ html.removeAttribute('data-theme'); themeBtn.textContent='🌙'; themeBtn.title='Switch to light theme'; themeBtn.setAttribute('aria-pressed','false'); }
+  });
+
+  /* ---------- Font-size stepper ---------- */
+  /* Uses CSS zoom as a quick way to demo the concept across the whole page.
+     A production build should size text in rem and scale a root font-size,
+     which works consistently across all browsers including older Safari. */
+  let fsLevel = 0;
+  function applyFontSize(){ document.body.style.zoom = String(1 + fsLevel * 0.125); }
+  document.getElementById('fsUp').addEventListener('click', ()=>{ if(fsLevel<2){ fsLevel++; applyFontSize(); } });
+  document.getElementById('fsDown').addEventListener('click', ()=>{ if(fsLevel>-2){ fsLevel--; applyFontSize(); } });
+
+  /* ---------- Language switcher ----------
+     Demo covers the interface chrome (nav, headings, actions), not every
+     string on the page — a full build should run this through a proper
+     i18n library with all copy externalized and professionally reviewed,
+     rather than a hand-rolled dictionary like this one. */
+  const i18n = {
+    en:{searchPlaceholder:"Search videos, tags, creators…",protoNote:"Prototype — pick a role to preview its screen",roleVisitor:"Visitor",roleUser:"User",roleCreator:"Creator",roleAdvertiser:"Advertiser",roleModerator:"Moderator",roleAdmin:"Admin",visitorHeading:"Trending on MundiVeo",visitorSub:"Watching is free — sign in to like, comment and follow creators.",signIn:"Sign in",signUp:"Sign up",commentsHeading:"Comments",upNext:"Up next",actionLike:"Like",actionComment:"Comment",actionShare:"Share",actionFollow:"Follow",studioHeading:"Studio",navDashboard:"Dashboard",navVideos:"Videos",navAnalytics:"Analytics",navMonetization:"Monetization",navComments:"Comments",advHeading:"Advertiser console",navCampaigns:"Campaigns",navCreatives:"Creatives",navBilling:"Billing",modHeading:"Review queue",adminHeading:"Platform overview"},
+    nl:{searchPlaceholder:"Zoek video's, tags, makers…",protoNote:"Prototype — kies een rol om het scherm te bekijken",roleVisitor:"Bezoeker",roleUser:"Gebruiker",roleCreator:"Maker",roleAdvertiser:"Adverteerder",roleModerator:"Moderator",roleAdmin:"Beheerder",visitorHeading:"Trending op MundiVeo",visitorSub:"Kijken is gratis — log in om te liken, reageren en makers te volgen.",signIn:"Inloggen",signUp:"Registreren",commentsHeading:"Reacties",upNext:"Volgende",actionLike:"Vind ik leuk",actionComment:"Reageer",actionShare:"Delen",actionFollow:"Volgen",studioHeading:"Studio",navDashboard:"Dashboard",navVideos:"Video's",navAnalytics:"Analyses",navMonetization:"Monetisatie",navComments:"Reacties",advHeading:"Adverteerdersconsole",navCampaigns:"Campagnes",navCreatives:"Advertentiemateriaal",navBilling:"Facturering",modHeading:"Beoordelingswachtrij",adminHeading:"Platformoverzicht"},
+    de:{searchPlaceholder:"Videos, Tags, Ersteller suchen…",protoNote:"Prototyp — Rolle wählen, um die Ansicht zu sehen",roleVisitor:"Besucher",roleUser:"Nutzer",roleCreator:"Creator",roleAdvertiser:"Werbetreibender",roleModerator:"Moderator",roleAdmin:"Administrator",visitorHeading:"Angesagt auf MundiVeo",visitorSub:"Ansehen ist kostenlos — melde dich an, um zu liken, zu kommentieren und Creators zu folgen.",signIn:"Anmelden",signUp:"Registrieren",commentsHeading:"Kommentare",upNext:"Als Nächstes",actionLike:"Gefällt mir",actionComment:"Kommentieren",actionShare:"Teilen",actionFollow:"Folgen",studioHeading:"Studio",navDashboard:"Übersicht",navVideos:"Videos",navAnalytics:"Analysen",navMonetization:"Monetarisierung",navComments:"Kommentare",advHeading:"Werbekonsole",navCampaigns:"Kampagnen",navCreatives:"Werbemittel",navBilling:"Abrechnung",modHeading:"Prüfwarteschlange",adminHeading:"Plattformübersicht"},
+    fr:{searchPlaceholder:"Rechercher vidéos, tags, créateurs…",protoNote:"Prototype — choisissez un rôle pour voir son écran",roleVisitor:"Visiteur",roleUser:"Utilisateur",roleCreator:"Créateur",roleAdvertiser:"Annonceur",roleModerator:"Modérateur",roleAdmin:"Administrateur",visitorHeading:"Tendances sur MundiVeo",visitorSub:"Regarder est gratuit — connectez-vous pour aimer, commenter et suivre des créateurs.",signIn:"Se connecter",signUp:"S'inscrire",commentsHeading:"Commentaires",upNext:"À suivre",actionLike:"J'aime",actionComment:"Commenter",actionShare:"Partager",actionFollow:"Suivre",studioHeading:"Studio",navDashboard:"Tableau de bord",navVideos:"Vidéos",navAnalytics:"Statistiques",navMonetization:"Monétisation",navComments:"Commentaires",advHeading:"Console annonceur",navCampaigns:"Campagnes",navCreatives:"Créations publicitaires",navBilling:"Facturation",modHeading:"File de modération",adminHeading:"Vue d'ensemble de la plateforme"},
+    es:{searchPlaceholder:"Buscar vídeos, etiquetas, creadores…",protoNote:"Prototipo — elige un rol para ver su pantalla",roleVisitor:"Visitante",roleUser:"Usuario",roleCreator:"Creador",roleAdvertiser:"Anunciante",roleModerator:"Moderador",roleAdmin:"Administrador",visitorHeading:"Tendencias en MundiVeo",visitorSub:"Ver vídeos es gratis — inicia sesión para dar me gusta, comentar y seguir creadores.",signIn:"Iniciar sesión",signUp:"Registrarse",commentsHeading:"Comentarios",upNext:"A continuación",actionLike:"Me gusta",actionComment:"Comentar",actionShare:"Compartir",actionFollow:"Seguir",studioHeading:"Estudio",navDashboard:"Panel",navVideos:"Vídeos",navAnalytics:"Estadísticas",navMonetization:"Monetización",navComments:"Comentarios",advHeading:"Consola de anunciante",navCampaigns:"Campañas",navCreatives:"Creatividades",navBilling:"Facturación",modHeading:"Cola de revisión",adminHeading:"Resumen de la plataforma"}
+  };
+  function applyLang(lang){
+    const dict = i18n[lang] || i18n.en;
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.dataset.i18n;
+      if(dict[key]) el.textContent = dict[key];
+    });
+    document.documentElement.lang = lang;
+  }
+  document.getElementById('langSelect').addEventListener('change', (e)=> applyLang(e.target.value));
+</script>
+
+</body>
+</html>
